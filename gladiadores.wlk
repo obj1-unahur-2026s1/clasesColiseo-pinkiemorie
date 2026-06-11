@@ -1,17 +1,24 @@
+import grupos.*
 import armas.*
 import armaduras.*
 
 class Gladiador {
     var vida = 100
 
+    method vida() = vida
     method fuerza()
     method destreza()
     method poderDeAtaque()
     method defensa()
     method atacar(gladiador)
+    method crearGrupoCon(gladiador)
 
     method recibirDaño(cantDaño) {
         vida -= cantDaño
+    }
+
+    method recibirCuracion() {
+        vida = 100
     }
 }
 
@@ -24,6 +31,9 @@ class Mirmillon inherits Gladiador {
     override method destreza() = 15
     override method poderDeAtaque() = arma.poderDeAtaque() + fuerza
     override method defensa() = armadura.puntosDeArmadura(self) + self.destreza()
+    override method crearGrupoCon(gladiador) {
+        
+    }
 
     override method atacar(gladiador) {
         gladiador.recibirDaño(self.poderDeAtaque())
@@ -39,7 +49,7 @@ class Mirmillon inherits Gladiador {
 }
 
 class Dimachaerus inherits Gladiador {
-    var armas = []
+    const armas = []
     var destreza
 
     override method fuerza() = 10
@@ -47,7 +57,9 @@ class Dimachaerus inherits Gladiador {
     override method poderDeAtaque() = self.fuerza() + self.poderAtaqueTotalDeArmas()
     method poderAtaqueTotalDeArmas() = armas.sum({a => a.poderDeAtaque()})
     override method defensa() = destreza / 2
-
+    override method crearGrupoCon(gladiador) {
+        
+    }
     override method atacar(gladiador) {
         gladiador.recibirDaño(self.poderDeAtaque() - gladiador.defensa())
         destreza += 1
